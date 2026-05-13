@@ -6,12 +6,10 @@
 
 <title>AI Deteksi Sampah</title>
 
-<!-- ONNX Runtime Web -->
 <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
 
-<!-- Font -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
@@ -33,28 +31,25 @@ body{
     padding:20px;
 }
 
-/* ===== MAIN ===== */
 .main{
     width:100%;
     max-width:1000px;
 }
 
-/* ===== HEADER ===== */
 .header{
     text-align:center;
     margin-bottom:20px;
 }
 
 .header h1{
-    font-size:2.5rem;
-    text-shadow:0 0 20px rgba(0,255,170,.4);
+    font-size:2.4rem;
 }
 
 .header p{
     opacity:.7;
 }
 
-/* ===== CARD ===== */
+/* CARD */
 .card{
     background:rgba(255,255,255,.05);
     border:1px solid rgba(255,255,255,.1);
@@ -63,18 +58,18 @@ body{
     backdrop-filter:blur(12px);
 }
 
-/* ===== TOP PANEL ===== */
+/* PANEL */
 .top-panel{
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:15px;
-    margin-bottom:20px;
+    margin-bottom:15px;
 }
 
 .info-box{
     background:rgba(255,255,255,.05);
-    padding:15px;
-    border-radius:15px;
+    padding:12px;
+    border-radius:12px;
 }
 
 .info-title{
@@ -83,56 +78,50 @@ body{
 }
 
 .info-value{
-    font-size:1.2rem;
+    font-size:1.1rem;
     font-weight:bold;
 }
 
-#status{
-    color:#FFD54F;
-}
+#status{ color:#FFD54F; }
+#prediction{ color:#00FFAE; }
 
-#prediction{
-    color:#00FFAE;
-}
-
-/* ===== BUTTON ===== */
+/* BUTTON */
 .btn-start{
     width:100%;
-    padding:14px;
+    padding:12px;
     border:none;
-    border-radius:12px;
+    border-radius:10px;
     background:linear-gradient(135deg,#00C853,#00E676);
     font-weight:bold;
     cursor:pointer;
     margin-bottom:15px;
 }
 
-/* ===== CAMERA CONTAINER (FIX SIZE) ===== */
+/* ===== FIX CAMERA FULL BINGKAI ===== */
 .container{
     position:relative;
     width:100%;
-    max-width:720px;   /* 🔥 INI YANG MEMBUAT KECIL */
-    aspect-ratio:16/9; /* 🔥 LEBIH PROPORSIONAL */
+    max-width:520px;
+    height:390px;
     margin:0 auto;
     background:black;
-    border-radius:20px;
+    border-radius:18px;
     overflow:hidden;
+    border:2px solid rgba(255,255,255,.1);
 }
 
-/* ===== VIDEO + CANVAS ===== */
+/* IMPORTANT FIX */
 video,
 canvas#overlay{
     position:absolute;
+    top:0;
+    left:0;
     width:100%;
     height:100%;
-    object-fit:contain; /* 🔥 BIAR TIDAK ZOOM BERLEBIHAN */
+    object-fit:cover; /* 🔥 INI KUNCI FIX FULL FRAME */
 }
 
-canvas#overlay{
-    z-index:10;
-}
-
-/* ===== SCANNER EFFECT ===== */
+/* scanner */
 .scanner{
     position:absolute;
     width:100%;
@@ -147,7 +136,6 @@ canvas#overlay{
     100%{top:100%}
 }
 
-/* ===== FOOTER ===== */
 .footer{
     text-align:center;
     margin-top:10px;
@@ -155,14 +143,14 @@ canvas#overlay{
     font-size:.8rem;
 }
 
-/* ===== MOBILE ===== */
 @media(max-width:768px){
     .top-panel{
         grid-template-columns:1fr;
     }
 
-    .header h1{
-        font-size:2rem;
+    .container{
+        max-width:320px;
+        height:240px;
     }
 }
 
@@ -204,7 +192,7 @@ canvas#overlay{
 
             <video id="webcam" playsinline muted></video>
 
-            <canvas id="overlay" width="640" height="480"></canvas>
+            <canvas id="overlay"></canvas>
 
         </div>
 
@@ -216,10 +204,8 @@ canvas#overlay{
 
 </div>
 
-<!-- hidden canvas -->
 <canvas id="processor" width="640" height="640" style="display:none;"></canvas>
 
-<!-- JS -->
 <script src="app.js"></script>
 
 </body>
