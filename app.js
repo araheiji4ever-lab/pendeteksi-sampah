@@ -28,6 +28,7 @@ const ctxOverlay = overlay.getContext('2d');
 const processor = document.getElementById('processor');
 const ctxProcessor = processor.getContext('2d', { willReadFrequently: true });
 const status = document.getElementById('status');
+const prediction = document.getElementById('prediction');
 const initBtn = document.getElementById('btn-init');
 
 let session;
@@ -42,6 +43,7 @@ initBtn.addEventListener('click', async () => {
         session = await ort.InferenceSession.create(CONFIG.modelPath, { 
             executionProviders: ['webgl', 'wasm'] // Meminta browser menggunakan GPU/VGA jika tersedia
         });
+        status.innerText = "MODEL AI BERHASIL DIMUAT";
         startCamera();
     } catch (e) {
         status.innerText = "GAGAL: FILE MODEL TIDAK DITEMUKAN";
@@ -149,17 +151,72 @@ function nonMaxSuppression(boxes, iouThreshold) {
 
 // Fungsi untuk menggambar kotak hijau beserta teks label di atas video
 function drawBoxes(boxes) {
+
     ctxOverlay.clearRect(0, 0, overlay.width, overlay.height);
+
+    // Tampilkan hasil prediksi
+    if (boxes.length > 0) {
+
+        const bestBox = boxes[0];
+
+        prediction.innerText =
+            `${CONFIG.labels[bestBox.classId]} (${(bestBox.score * 100).toFixed(0)}%)`;
+
+    } else {
+
+        prediction.innerText = "Tidak ada objek";
+
+    }
+
+    // Gambar kotak deteksi
     boxes.forEach(box => {
+
         const scaleX = overlay.width / TARGET_SIZE;
         const scaleY = overlay.height / TARGET_SIZE;
-        
-        ctxOverlay.strokeStyle = "#34C759";
+
+        // Warna kotak
+        ctxOverlay.strokeStyle = "#00FFAE";
         ctxOverlay.lineWidth = 3;
-        ctxOverlay.strokeRect(box.x * scaleX, box.y * scaleY, box.w * scaleX, box.h * scaleY);
-        
-        ctxOverlay.fillStyle = "#34C759";
-        ctxOverlay.font = "bold 16px Arial";
-        ctxOverlay.fillText(`${CONFIG.labels[box.classId]} ${(box.score * 100).toFixed(0)}%`, box.x * scaleX, box.y * scaleY - 5);
+
+        // Glow effect
+        ctxOverlay.shadowColor = "#00FFAE";
+        ctxOverlay.shadowBlur = 10;
+
+        // Gambar kotak
+        ctxOverlay.strokeRect(
+            box.x * scaleX,
+            box.y * scaleY,
+            box.w * scaleX,
+            box.h * scaleY
+        );
+
+        // Text label
+        const label =
+            `${CONFIG.labels[box.classId]} ${(box.score * 100).toFixed(0)}%`;
+
+        ctxOverlay.font = "bold 16px Poppins";
+
+        const textWidth = ctxOverlay.measureText(label).width;
+
+        // Background label
+        ctxOverlay.fillStyle = "#00FFAE";
+
+        ctxOverlay.fillRect(
+            box.x * scaleX,
+            (box.y * scaleY) - 30,
+            textWidth + 20,
+            28
+        );
+
+        // Tulisan label
+        ctxOverlay.fillStyle = "#000";
+
+        ctxOverlay.fillText(
+            label,
+            (box.x * scaleX) + 10,
+            (box.y * scaleY) - 10
+        );
+
     });
+
 }
