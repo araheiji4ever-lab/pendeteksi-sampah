@@ -6,7 +6,7 @@
 
 <title>AI Deteksi Sampah</title>
 
-<!-- ONNX Runtime -->
+<!-- ONNX Runtime Web -->
 <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
 
 <!-- Font -->
@@ -23,75 +23,64 @@
 
 body{
     min-height:100vh;
-    background:
-        radial-gradient(circle at top left,#16222A,#0B0F14 50%),
-        linear-gradient(135deg,#000000,#0F172A);
+    background: radial-gradient(circle at top left,#16222A,#0B0F14 50%),
+                linear-gradient(135deg,#000,#0F172A);
     color:white;
     font-family:'Poppins',sans-serif;
     display:flex;
     justify-content:center;
     align-items:center;
-    padding:30px;
-    overflow-x:hidden;
+    padding:20px;
 }
 
 .main{
     width:100%;
-    max-width:1100px;
+    max-width:1000px;
 }
 
 .header{
     text-align:center;
-    margin-bottom:25px;
+    margin-bottom:20px;
 }
 
 .header h1{
-    font-size:3rem;
-    font-weight:700;
-    margin-bottom:10px;
-    letter-spacing:2px;
-    text-shadow:0 0 25px rgba(0,255,170,.45);
+    font-size:2.5rem;
+    text-shadow:0 0 20px rgba(0,255,170,.4);
 }
 
 .header p{
-    opacity:.75;
-    font-size:1rem;
+    opacity:.7;
 }
 
 .card{
     background:rgba(255,255,255,.05);
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:28px;
-    padding:25px;
-    backdrop-filter:blur(14px);
-    box-shadow:
-        0 10px 50px rgba(0,0,0,.45),
-        inset 0 0 20px rgba(255,255,255,.03);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:20px;
+    padding:20px;
+    backdrop-filter:blur(12px);
 }
 
 .top-panel{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:20px;
-    margin-bottom:25px;
+    gap:15px;
+    margin-bottom:20px;
 }
 
 .info-box{
     background:rgba(255,255,255,.05);
-    border-radius:18px;
-    padding:20px;
-    border:1px solid rgba(255,255,255,.08);
+    padding:15px;
+    border-radius:15px;
 }
 
 .info-title{
-    font-size:.85rem;
+    font-size:.8rem;
     opacity:.7;
-    margin-bottom:8px;
 }
 
 .info-value{
-    font-size:1.3rem;
-    font-weight:700;
+    font-size:1.2rem;
+    font-weight:bold;
 }
 
 #status{
@@ -100,47 +89,31 @@ body{
 
 #prediction{
     color:#00FFAE;
-    text-shadow:0 0 15px rgba(0,255,174,.45);
 }
 
 .btn-start{
     width:100%;
-    padding:16px;
+    padding:14px;
     border:none;
-    border-radius:16px;
+    border-radius:12px;
     background:linear-gradient(135deg,#00C853,#00E676);
-    color:black;
-    font-size:1rem;
-    font-weight:700;
+    font-weight:bold;
     cursor:pointer;
-    transition:.3s;
-    margin-bottom:25px;
-    box-shadow:0 0 30px rgba(0,255,140,.3);
-}
-
-.btn-start:hover{
-    transform:translateY(-3px);
-    box-shadow:0 0 40px rgba(0,255,140,.5);
+    margin-bottom:15px;
 }
 
 .container{
     position:relative;
     width:100%;
     aspect-ratio:4/3;
-    border-radius:24px;
-    overflow:hidden;
-    border:2px solid rgba(255,255,255,.08);
     background:black;
-    box-shadow:
-        0 0 40px rgba(0,0,0,.5),
-        inset 0 0 20px rgba(255,255,255,.03);
+    border-radius:20px;
+    overflow:hidden;
 }
 
 video,
 canvas#overlay{
     position:absolute;
-    top:0;
-    left:0;
     width:100%;
     height:100%;
     object-fit:cover;
@@ -153,40 +126,28 @@ canvas#overlay{
 .scanner{
     position:absolute;
     width:100%;
-    height:4px;
+    height:3px;
     background:linear-gradient(90deg,transparent,#00FFAE,transparent);
-    box-shadow:0 0 25px #00FFAE;
     animation:scan 2.5s linear infinite;
     z-index:5;
 }
 
 @keyframes scan{
-    0%{
-        top:0%;
-    }
-
-    100%{
-        top:100%;
-    }
+    0%{top:0%}
+    100%{top:100%}
 }
 
 .footer{
     text-align:center;
-    margin-top:18px;
+    margin-top:10px;
     opacity:.6;
-    font-size:.85rem;
+    font-size:.8rem;
 }
 
 @media(max-width:768px){
-
-    .header h1{
-        font-size:2rem;
-    }
-
     .top-panel{
         grid-template-columns:1fr;
     }
-
 }
 
 </style>
@@ -198,7 +159,7 @@ canvas#overlay{
 
     <div class="header">
         <h1>♻️ AI Deteksi Sampah</h1>
-        <p>Powered by ONNX Runtime • Tiara • Desvita • Melinnda</p>
+        <p>YOLO + ONNX Runtime Web</p>
     </div>
 
     <div class="card">
@@ -206,17 +167,13 @@ canvas#overlay{
         <div class="top-panel">
 
             <div class="info-box">
-                <div class="info-title">STATUS SISTEM</div>
-                <div id="status" class="info-value">
-                    MENUNGGU AKTIVASI
-                </div>
+                <div class="info-title">STATUS</div>
+                <div id="status" class="info-value">MENUNGGU AKTIVASI</div>
             </div>
 
             <div class="info-box">
-                <div class="info-title">HASIL DETEKSI AI</div>
-                <div id="prediction" class="info-value">
-                    -
-                </div>
+                <div class="info-title">PREDIKSI</div>
+                <div id="prediction" class="info-value">-</div>
             </div>
 
         </div>
@@ -236,17 +193,16 @@ canvas#overlay{
         </div>
 
         <div class="footer">
-            Real-time Garbage Detection System using YOLO + ONNX
+            Real-time Garbage Detection System
         </div>
 
     </div>
 
 </div>
 
-<!-- Canvas Hidden -->
+<!-- hidden canvas -->
 <canvas id="processor" width="640" height="640" style="display:none;"></canvas>
 
-<!-- App Logic -->
 <script src="app.js"></script>
 
 </body>
