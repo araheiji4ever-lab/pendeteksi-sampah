@@ -33,11 +33,13 @@ body{
     padding:20px;
 }
 
+/* ===== MAIN ===== */
 .main{
     width:100%;
     max-width:1000px;
 }
 
+/* ===== HEADER ===== */
 .header{
     text-align:center;
     margin-bottom:20px;
@@ -52,6 +54,7 @@ body{
     opacity:.7;
 }
 
+/* ===== CARD ===== */
 .card{
     background:rgba(255,255,255,.05);
     border:1px solid rgba(255,255,255,.1);
@@ -60,6 +63,7 @@ body{
     backdrop-filter:blur(12px);
 }
 
+/* ===== TOP PANEL ===== */
 .top-panel{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -91,6 +95,7 @@ body{
     color:#00FFAE;
 }
 
+/* ===== BUTTON ===== */
 .btn-start{
     width:100%;
     padding:14px;
@@ -102,27 +107,32 @@ body{
     margin-bottom:15px;
 }
 
+/* ===== CAMERA CONTAINER (FIX SIZE) ===== */
 .container{
     position:relative;
     width:100%;
-    aspect-ratio:4/3;
+    max-width:720px;   /* 🔥 INI YANG MEMBUAT KECIL */
+    aspect-ratio:16/9; /* 🔥 LEBIH PROPORSIONAL */
+    margin:0 auto;
     background:black;
     border-radius:20px;
     overflow:hidden;
 }
 
+/* ===== VIDEO + CANVAS ===== */
 video,
 canvas#overlay{
     position:absolute;
     width:100%;
     height:100%;
-    object-fit:cover;
+    object-fit:contain; /* 🔥 BIAR TIDAK ZOOM BERLEBIHAN */
 }
 
 canvas#overlay{
     z-index:10;
 }
 
+/* ===== SCANNER EFFECT ===== */
 .scanner{
     position:absolute;
     width:100%;
@@ -137,6 +147,7 @@ canvas#overlay{
     100%{top:100%}
 }
 
+/* ===== FOOTER ===== */
 .footer{
     text-align:center;
     margin-top:10px;
@@ -144,9 +155,14 @@ canvas#overlay{
     font-size:.8rem;
 }
 
+/* ===== MOBILE ===== */
 @media(max-width:768px){
     .top-panel{
         grid-template-columns:1fr;
+    }
+
+    .header h1{
+        font-size:2rem;
     }
 }
 
@@ -203,6 +219,7 @@ canvas#overlay{
 <!-- hidden canvas -->
 <canvas id="processor" width="640" height="640" style="display:none;"></canvas>
 
+<!-- JS -->
 <script src="app.js"></script>
 
 </body>
